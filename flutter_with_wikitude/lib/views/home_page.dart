@@ -7,13 +7,21 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text("Arabeitak"),),
       body: SafeArea(
         child: Center(
-          child: ElevatedButton(
-            child: const Text("Start"),
-            onPressed: () {
-              GoRouter.of(context).push('/ar/intro_page');
-            },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("Welcome!"),
+              ElevatedButton(
+                child: const Text("Start"),
+                onPressed: () {
+                  GoRouter.of(context).push('/ar/intro_page');
+                },
+              ),
+            ],
           ),
         ),
       ),

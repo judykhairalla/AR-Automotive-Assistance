@@ -58,7 +58,7 @@ var World = {
                 // y: this.firetruckHeight * 0.8,
                 x: 0,
                 y: 0,
-                z: 0.1
+                z: 0.2
             },
             rotate: {
                 x: -90
