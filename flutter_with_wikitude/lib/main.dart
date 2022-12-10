@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: MyRouter.router,
       title: 'Arabeitak',
-      theme: ThemeData(
+       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
     );

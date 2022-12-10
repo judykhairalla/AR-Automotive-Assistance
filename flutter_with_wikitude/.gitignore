@@ -45,3 +45,6 @@ app.*.map.json
 
 # Plugins
 /plugin
+
+# Licenses
+/lib/licenses/
