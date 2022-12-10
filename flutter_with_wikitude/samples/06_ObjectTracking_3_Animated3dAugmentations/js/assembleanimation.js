@@ -55,7 +55,7 @@ var World = {
                 z: capScale
             },
             translate: {
-                x: -this.firetruckLength*2,
+                x: -this.firetruckLength*0.8,
                 y: 0,
                 z: 0.2
             },
@@ -80,7 +80,7 @@ var World = {
                 z: jerrycanScale
             },
             translate: {
-                x: -this.firetruckLength,
+                x: this.firetruckLength*0.3,
                 y: 0,
                 z: 0.2
             },
