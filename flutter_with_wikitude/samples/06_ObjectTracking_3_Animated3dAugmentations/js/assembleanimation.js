@@ -16,7 +16,8 @@ var World = {
     firetruckHeight: 0.2,
 
     init: function initFn() {
-        World.createOccluder();
+        //World.createOccluder();
+        World.createCap();
         World.createJerrycan();
         World.createTracker();
     },
@@ -40,13 +41,38 @@ var World = {
         World.drawables.push(this.firetruckOccluder);
     },
 
+    createCap: function createCapFn() {
+        this.cap = World.getCap();
+        World.drawables.push(this.cap);
+    },
+
+    getCap: function getCapFn() {
+        var capScale = 0.003* this.firetruckLength;
+        return new AR.Model("assets/cap.wt3", {
+            scale: {
+                x: capScale,
+                y: capScale,
+                z: capScale
+            },
+            translate: {
+                x: -this.firetruckLength*2,
+                y: 0,
+                z: 0.2
+            },
+            rotate: {
+                x: -90
+            },
+            onError: World.onError
+        });
+    },
+
     createJerrycan: function createJerrycanFn() {
         this.jerrycan = World.getJerrycan();
         World.drawables.push(this.jerrycan);
     },
 
     getJerrycan: function getJerrycanFn() {
-        var jerrycanScale = 1.5* this.firetruckLength;
+        var jerrycanScale = 1.0* this.firetruckLength;
         return new AR.Model("assets/jerrycan.wt3", {
             scale: {
                 x: jerrycanScale,
@@ -54,9 +80,7 @@ var World = {
                 z: jerrycanScale
             },
             translate: {
-                // x: -this.firetruckLength * 0.45,
-                // y: this.firetruckHeight * 0.8,
-                x: 0,
+                x: -this.firetruckLength,
                 y: 0,
                 z: 0.2
             },
@@ -64,20 +88,23 @@ var World = {
                 x: -90
             },
             onClick: function() {
-                World.runJerrycanAnimation();
+                World.runMainAnimation();
             },
             onError: World.onError
         });
     },
 
-    runJerrycanAnimation: function addJerrycanAnimationFn() {
+    runMainAnimation: function addMainAnimationFn() {
         var animationDuration = 2000;
+        
+        var capRotationAnimationY = new AR.PropertyAnimation(this.cap, "rotate.y", 0, 360, animationDuration);
+        var capRotationAnimationX = new AR.PropertyAnimation(this.cap, "rotate.x", -90, -180, animationDuration);
 
         var jerrycanRotationAnimationDown = new AR.PropertyAnimation(this.jerrycan, "rotate.z", 0, 45, animationDuration);
         var jerrycanRotationAnimationUp = new AR.PropertyAnimation(this.jerrycan, "rotate.z", 45, 0, animationDuration);
 
         var animationGroup = new AR.AnimationGroup(
-            AR.CONST.ANIMATION_GROUP_TYPE.SEQUENTIAL, [jerrycanRotationAnimationDown, jerrycanRotationAnimationUp]
+            AR.CONST.ANIMATION_GROUP_TYPE.SEQUENTIAL, [capRotationAnimationX, jerrycanRotationAnimationDown, jerrycanRotationAnimationUp]
         );
         animationGroup.start();
     },
