@@ -19,6 +19,7 @@ var World = {
         //World.createOccluder();
         World.createCap();
         World.createJerrycan();
+        World.createOverlays();
         World.createTracker();
     },
 
@@ -126,6 +127,30 @@ var World = {
             onObjectLost: World.objectLost,
             onError: World.onError
         });
+    },
+
+    createOverlays: function createOverlaysFn() {
+        var weatherWidget = new AR.HtmlDrawable({
+            uri: "assets/weather.html"
+        }, 0.25, {
+            viewportWidth: 320,
+            viewportHeight: 100,
+            backgroundColor: "#FFFFFF",
+            translate: {
+                x: -this.firetruckLength*0.5,
+                y: this.firetruckHeight*0.9,
+                z: 0.1
+            },
+            horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.RIGHT,
+            verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP,
+            clickThroughEnabled: true,
+            allowDocumentLocationChanges: false,
+            onDocumentLocationChanged: function onDocumentLocationChangedFn(uri) {
+                AR.context.openInBrowser(uri);
+            },
+            onError: World.onError
+        });
+        World.drawables.push(weatherWidget);
     },
 
     objectRecognized: function objectRecognizedFn() {
