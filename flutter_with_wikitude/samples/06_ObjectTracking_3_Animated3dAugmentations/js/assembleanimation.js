@@ -48,7 +48,7 @@ var World = {
     },
 
     getCap: function getCapFn() {
-        var capScale = 0.003* this.firetruckLength;
+        var capScale = 0.003 * this.firetruckLength;
         return new AR.Model("assets/cap.wt3", {
             scale: {
                 x: capScale,
@@ -56,7 +56,7 @@ var World = {
                 z: capScale
             },
             translate: {
-                x: -this.firetruckLength*0.8,
+                x: -this.firetruckLength * 0.8,
                 y: 0,
                 z: 0.2
             },
@@ -73,7 +73,7 @@ var World = {
     },
 
     getJerrycan: function getJerrycanFn() {
-        var jerrycanScale = 1.0* this.firetruckLength;
+        var jerrycanScale = 1.0 * this.firetruckLength;
         return new AR.Model("assets/jerrycan.wt3", {
             scale: {
                 x: jerrycanScale,
@@ -81,14 +81,14 @@ var World = {
                 z: jerrycanScale
             },
             translate: {
-                x: this.firetruckLength*0.3,
+                x: this.firetruckLength * 0.3,
                 y: 0,
                 z: 0.2
             },
             rotate: {
                 x: -90
             },
-            onClick: function() {
+            onClick: function () {
                 World.runMainAnimation();
             },
             onError: World.onError
@@ -97,7 +97,7 @@ var World = {
 
     runMainAnimation: function addMainAnimationFn() {
         var animationDuration = 2000;
-        
+
         var capRotationAnimationY = new AR.PropertyAnimation(this.cap, "rotate.y", 0, 360, animationDuration);
         var capRotationAnimationX = new AR.PropertyAnimation(this.cap, "rotate.x", -90, -180, animationDuration);
 
@@ -130,16 +130,18 @@ var World = {
     },
 
     createOverlays: function createOverlaysFn() {
-        var weatherWidget = new AR.HtmlDrawable({
-            uri: "assets/weather.html"
+        var instructionWidget = new AR.HtmlDrawable({
+            uri: "assets/instruction.html"
         }, 0.25, {
-            viewportWidth: 320,
-            viewportHeight: 100,
-            backgroundColor: "#FFFFFF",
+            viewportWidth: 500,
+            viewportHeight: 700,
             translate: {
-                x: -this.firetruckLength*0.5,
-                y: this.firetruckHeight*0.9,
-                z: 0.1
+                x: -this.firetruckLength * 0.5,
+                y: this.firetruckHeight * 2,
+                z: 0.2
+            },
+            rotate: {
+                x: 25
             },
             horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.RIGHT,
             verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP,
@@ -150,7 +152,8 @@ var World = {
             },
             onError: World.onError
         });
-        World.drawables.push(weatherWidget);
+        World.drawables.push(instructionWidget);
+
     },
 
     objectRecognized: function objectRecognizedFn() {
