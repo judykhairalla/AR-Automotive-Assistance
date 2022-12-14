@@ -7,14 +7,14 @@ import 'package:flutter_with_wikitude/models/sample.dart';
 
 import 'package:go_router/go_router.dart';
 
-class IntroPage extends StatefulWidget {
-  const IntroPage({super.key});
+class ARIntroPage extends StatefulWidget {
+  const ARIntroPage({super.key});
 
   @override
-  State<IntroPage> createState() => _IntroPageState();
+  State<ARIntroPage> createState() => _ARIntroPageState();
 }
 
-class _IntroPageState extends State<IntroPage> {
+class _ARIntroPageState extends State<ARIntroPage> {
   bool _isLoading = false;
 
   @override
