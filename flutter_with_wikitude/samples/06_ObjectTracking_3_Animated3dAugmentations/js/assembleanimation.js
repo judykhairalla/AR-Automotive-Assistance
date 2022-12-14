@@ -63,7 +63,8 @@ var World = {
             rotate: {
                 x: -90
             },
-            onError: World.onError
+            onError: World.onError,
+        
         });
     },
 
@@ -88,8 +89,9 @@ var World = {
             rotate: {
                 x: -90
             },
-            onClick: function () {
+            onClick: function (scale)  {
                 World.runMainAnimation();
+              
             },
             onError: World.onError
         });
