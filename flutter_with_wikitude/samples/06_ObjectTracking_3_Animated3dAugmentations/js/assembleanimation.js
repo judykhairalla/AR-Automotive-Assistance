@@ -16,11 +16,14 @@ var World = {
     firetruckHeight: 0.2,
 
     init: function initFn() {
-        //World.createOccluder();
+        World.createOccluder();
         World.createCap();
         World.createJerrycan();
+        World.createBtn();
         World.createOverlays();
+      
         World.createTracker();
+      
     },
 
     createOccluder: function createOccluderFn() {
@@ -39,6 +42,7 @@ var World = {
             },
             onError: World.onError
         });
+
         World.drawables.push(this.firetruckOccluder);
     },
 
@@ -155,9 +159,36 @@ var World = {
             onError: World.onError
         });
         World.drawables.push(instructionWidget);
-
+      
     },
 
+    createBtn: function createBtnFn() {
+        var btn = new AR.HtmlDrawable({
+            uri: "assets/button.html"
+        }, 2, {
+        
+            translate: {
+                x: -this.firetruckLength * 0.5,
+                y: this.firetruckHeight * -1,
+                z: 0.2
+            },
+            rotate: {
+                x: 0
+            },
+            horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.LEFT,
+            verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP,
+            clickThroughEnabled: true,
+            allowDocumentLocationChanges: false,
+            onDocumentLocationChanged: function onDocumentLocationChangedFn(uri) {
+                AR.context.openInBrowser(uri);
+            },
+            onClick: alert(":( "),
+            onError: World.onError,
+           
+        });
+        World.drawables.push(btn);
+   
+    },
     objectRecognized: function objectRecognizedFn() {
         World.hideInfoBar();
         World.setAugmentationsEnabled(true);
