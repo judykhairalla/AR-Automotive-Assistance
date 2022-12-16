@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_with_wikitude/routes.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,10 +12,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // Set landscape orientation
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     return MaterialApp.router(
       routerConfig: MyRouter.router,
       title: 'Arabeitak',
-       theme: ThemeData(
+      theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
     );
