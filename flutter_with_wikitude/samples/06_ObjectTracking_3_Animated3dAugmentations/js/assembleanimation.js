@@ -19,7 +19,13 @@ var World = {
         World.createOccluder();
         World.createCap();
         World.createJerrycan();
-        World.createBtn();
+        World.createBtn({
+            translate:{
+                x:0,
+                z:0.5,
+                y:-0.2,
+            }
+        });
         World.createOverlays();
       
         World.createTracker();
@@ -162,33 +168,20 @@ var World = {
       
     },
 
-    createBtn: function createBtnFn() {
-        var btn = new AR.HtmlDrawable({
-            uri: "assets/button.html"
-        }, 2, {
-        
-            translate: {
-                x: -this.firetruckLength * 0.5,
-                y: this.firetruckHeight * -1,
-                z: 0.2
-            },
-            rotate: {
-                x: 0
-            },
-            horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.LEFT,
-            verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP,
-            clickThroughEnabled: true,
-            allowDocumentLocationChanges: false,
-            onDocumentLocationChanged: function onDocumentLocationChangedFn(uri) {
-                AR.context.openInBrowser(uri);
-            },
-            onClick: alert(":( "),
-            onError: World.onError,
-           
+    createBtn: function createBtnFn(options) {
+        var btn = new AR.ImageResource("assets/nextbtn.png", {
+            onError: World.onError
         });
-        World.drawables.push(btn);
-   
+        
+        options.onClick = function(){
+            alert("FINALLEH!");
+        }
+        var overlayOne = new AR.ImageDrawable(btn, 0.1, options)
+
+        World.drawables.push(overlayOne);
     },
+
+  
     objectRecognized: function objectRecognizedFn() {
         World.hideInfoBar();
         World.setAugmentationsEnabled(true);
