@@ -9,7 +9,7 @@ class IntroPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return IntroductionScreen(
       globalBackgroundColor: Colors.white,
-      pages: [
+      rawPages: [
         CustomPageView(context, "A step by step guide to maintain your car."),
         CustomPageView(context,
             "Replace the paper-based manuals through following instructions overlaid onto your screen.")
@@ -38,47 +38,41 @@ class IntroPage extends StatelessWidget {
     );
   }
 
-  PageViewModel CustomPageView(BuildContext context, String text) {
-    return PageViewModel(
-      title: "",
-      bodyWidget: FittedBox(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Image(
-              image: const AssetImage("assets/images/car_left.png"),
-              alignment: Alignment.centerLeft,
-              height: MediaQuery.of(context).size.height,
+  Widget CustomPageView(BuildContext context, String text) {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Image(
+            image: const AssetImage("assets/images/car_left.png"),
+            alignment: Alignment.centerLeft,
+            height: MediaQuery.of(context).size.height,
+          ),
+          FittedBox(
+            // padding: const EdgeInsets.all(11.0),
+            child: Container(
+              width: MediaQuery.of(context).size.width / 3,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("ARabeitak",
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height / 21,
+                          fontWeight: FontWeight.w600,
+                        )),
+                    Text(text,
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height / 27,
+                        )),
+                  ]),
             ),
-            Padding(
-              padding: const EdgeInsets.all(11.0),
-              child: Container(
-                width: MediaQuery.of(context).size.width / 3,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("ARabeitak",
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height / 21,
-                            fontWeight: FontWeight.w600,
-                          )),
-                      Text(text,
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height / 27,
-                          )),
-                    ]),
-              ),
-            ),
-            Image(
-              image: const AssetImage("assets/images/car_right.png"),
-              alignment: Alignment.centerRight,
-              height: MediaQuery.of(context).size.height,
-            ),
-          ],
-        ),
-      ),
-      decoration: const PageDecoration(
-        pageColor: Colors.white,
+          ),
+          Image(
+            image: const AssetImage("assets/images/car_right.png"),
+            alignment: Alignment.centerRight,
+            height: MediaQuery.of(context).size.height,
+          ),
+        ],
       ),
     );
   }

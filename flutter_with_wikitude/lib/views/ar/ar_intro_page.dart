@@ -20,7 +20,14 @@ class _ARIntroPageState extends State<ARIntroPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        // title: const Text("ARabeitak", style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        leading: const BackButton(
+          color: Colors.black,
+        ),
+      ),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -29,6 +36,9 @@ class _ARIntroPageState extends State<ARIntroPage> {
             children: [
               !_isLoading
                   ? ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.black)),
                       onPressed: () async {
                         setState(() {
                           _isLoading = true;
