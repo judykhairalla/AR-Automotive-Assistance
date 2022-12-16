@@ -72,6 +72,7 @@ flutter:
     - samples/06_ObjectTracking_3_Animated3dAugmentations/css/
     - samples/06_ObjectTracking_3_Animated3dAugmentations/assets/
     - assets/images/
+    - assets/icons/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
