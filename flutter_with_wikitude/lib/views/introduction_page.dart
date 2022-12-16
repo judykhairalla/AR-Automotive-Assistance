@@ -8,62 +8,47 @@ class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IntroductionScreen(
+      globalBackgroundColor: Colors.white,
       pages: [
         PageViewModel(
-          title: "Title of introduction page",
-          body: "Welcome to the app! This is a description of how it works.",
-          image: const Center(
-            child: Icon(Icons.waving_hand, size: 50.0),
-          ),
-        ),
-        PageViewModel(
-          title: "Title of blue page",
-          body:
-              "Welcome to the app! This is a description on a page with a blue background.",
-          image: Center(
-            child:
-                Image.network("https://example.com/image.png", height: 175.0),
+          title: "",
+          bodyWidget: FittedBox(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image(
+                  image: const AssetImage("assets/images/car_left.png"),
+                  alignment: Alignment.centerLeft,
+                  height: MediaQuery.of(context).size.height,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(11.0),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("ARabeitak",
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.height / 21,
+                              fontWeight: FontWeight.w600,
+                            )),
+                        Text("A step by step guide to maintain your car.",
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.height / 27,
+                            )),
+                      ]),
+                ),
+                Image(
+                  image: const AssetImage("assets/images/car_right.png"),
+                  alignment: Alignment.centerRight,
+                  height: MediaQuery.of(context).size.height,
+                ),
+              ],
+            ),
           ),
           decoration: const PageDecoration(
-            pageColor: Colors.blue,
+            pageColor: Colors.white,
           ),
         ),
-        PageViewModel(
-          title: "Title of orange text and bold page",
-          body:
-              "This is a description on a page with an orange title and bold, big body.",
-          image: const Center(
-            child: Text("👋", style: TextStyle(fontSize: 100.0)),
-          ),
-          decoration: const PageDecoration(
-            titleTextStyle: TextStyle(color: Colors.orange),
-            bodyTextStyle:
-                TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
-          ),
-        ),
-        PageViewModel(
-          title: "Title of custom button page",
-          body: "This is a description on a page with a custom button below.",
-          image: Image.asset("res/images/logo.png", height: 175.0),
-          footer: ElevatedButton(
-            onPressed: () {
-              // On button pressed
-            },
-            child: const Text("Let's Go!"),
-          ),
-        ),
-        PageViewModel(
-          title: "Title of custom body page",
-          bodyWidget: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text("Click on "),
-              Icon(Icons.edit),
-              Text(" to edit a post"),
-            ],
-          ),
-          image: const Center(child: Icon(Icons.android)),
-        )
       ],
       showSkipButton: true,
       skip: const Text("Skip"),
@@ -85,12 +70,12 @@ class IntroPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(38.0),
         ),
       ),
-      nextStyle: TextButton.styleFrom(primary: Colors.blue),
+      nextStyle: TextButton.styleFrom(primary: Colors.black87),
       dotsDecorator: DotsDecorator(
         size: const Size.square(10.0),
-        activeSize: const Size(20.0, 10.0),
-        activeColor: Theme.of(context).colorScheme.secondary,
-        color: Colors.black26,
+        activeSize: const Size(40.0, 10.0),
+        activeColor: Colors.black87,
+        color: Colors.grey.shade300,
         spacing: const EdgeInsets.symmetric(horizontal: 3.0),
         activeShape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
