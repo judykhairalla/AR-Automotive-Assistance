@@ -2,6 +2,7 @@ var World = {
     loaded: false,
     drawables: [],
     lights: [],
+    steps:[],
     firetruckRotation: {
         x: 0,
         y: 0,
@@ -56,6 +57,10 @@ var World = {
                 y: -0.2,
             }
         });
+        World.createOpenCapAnimation();
+        World.createPouringAnimation();
+        World.createStopPouringAnimation();
+        World.createCloseCapAnimation();
         World.createTracker();
 
     },
@@ -128,26 +133,44 @@ var World = {
                 x: -90
             },
             onClick: function (scale) {
-                World.runMainAnimation();
+                // World.runMainAnimation();
 
             },
             onError: World.onError
         });
     },
 
-    runMainAnimation: function addMainAnimationFn() {
+    createOpenCapAnimation: function createOpenCapAnimationFn() {
         var animationDuration = 2000;
 
-        var capRotationAnimationY = new AR.PropertyAnimation(this.cap, "rotate.y", 0, 360, animationDuration);
+        //var capRotationAnimationY = new AR.PropertyAnimation(this.cap, "rotate.y", 0, 360, animationDuration);
         var capRotationAnimationX = new AR.PropertyAnimation(this.cap, "rotate.x", -90, -180, animationDuration);
+        // capRotationAnimationX.start();
+        World.steps.push(capRotationAnimationX);
+    },
 
+    createPouringAnimation: function createPouringAnimationFn() {
+        var animationDuration = 2000;
         var jerrycanRotationAnimationDown = new AR.PropertyAnimation(this.jerrycan, "rotate.z", 0, 45, animationDuration);
+        
+        // jerrycanRotationAnimationDown.start();
+        World.steps.push(jerrycanRotationAnimationDown);
+    },
+
+    createStopPouringAnimation: function createStopPouringAnimationFn() {
+        var animationDuration = 2000;
+
         var jerrycanRotationAnimationUp = new AR.PropertyAnimation(this.jerrycan, "rotate.z", 45, 0, animationDuration);
 
-        var animationGroup = new AR.AnimationGroup(
-            AR.CONST.ANIMATION_GROUP_TYPE.SEQUENTIAL, [capRotationAnimationX, jerrycanRotationAnimationDown, jerrycanRotationAnimationUp]
-        );
-        animationGroup.start();
+        World.steps.push(jerrycanRotationAnimationUp);
+    },
+
+    createCloseCapAnimation: function createCloseCapAnimationFn() {
+        var animationDuration = 2000;
+
+        var capRotationAnimationX = new AR.PropertyAnimation(this.cap, "rotate.x", -180, -90, animationDuration);
+
+        World.steps.push(capRotationAnimationX);
     },
 
     createTracker: function createTrackerFn() {
@@ -206,17 +229,25 @@ var World = {
 
 
     createBtn: function createBtnFn(options) {
+        step=0;
         var btn = new AR.ImageResource("assets/nextbtn.png", {
             onError: World.onError
         });
 
         options.onClick = function () {
-            alert("FINALLEH!");
+            World.steps[step].start();
+            World.instructionWidget.evalJavascript("document.getElementById('test').innerHTML = 'Potatoes Taste Good!'; ");
+            step++;
+            if(step==World.steps.length){
+              
+                alert("Procedure Done!");
+            }
         }
         var overlayOne = new AR.ImageDrawable(btn, 0.1, options)
 
         World.drawables.push(overlayOne);
     },
+
     objectRecognized: function objectRecognizedFn() {
         World.hideInfoBar();
         World.setAugmentationsEnabled(true);
@@ -231,6 +262,7 @@ var World = {
             World.drawables[i].enabled = enabled;
         }
     },
+
     toggleSnapping: function toggleSnappingFn() {
 
         World.snapped = !World.snapped;
