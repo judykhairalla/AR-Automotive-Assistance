@@ -14,22 +14,50 @@ var World = {
     },
     firetruckLength: 0.33,
     firetruckHeight: 0.2,
+    snapped: false,
+    interactionContainer: 'snapContainer',
+    layout: {
+        normal: {
+            name: "normal",
+            offsetX: 0.35,
+            offsetY: 0.45,
+            opacity: 1.0,
+            carScale: 2.5,
+            carTranslateX: -0.3,
+            carTranslateY: 0.5,
+            carTranslateZ: 0.2,
+        },
+        snapped: {
+            name: "snapped",
+            offsetX: 0.45,
+            offsetY: 0.45,
+            opacity: 0.2,
+            carScale: 5,
+            carTranslateX: -0.89,
+            carTranslateY: 0,
+            carTranslateZ: 0,
+        }
+    },
+    previousScaleValue: 0,
 
+    previousTranslateValueSnap: {
+        x: 0,
+        y: 0
+    },
+    defaultScale: 0,
     init: function initFn() {
         World.createOccluder();
         World.createCap();
         World.createJerrycan();
         World.createBtn({
-            translate:{
-                x:0,
-                z:0.5,
-                y:-0.2,
+            translate: {
+                x: 0,
+                z: 0.5,
+                y: -0.2,
             }
         });
-        World.createOverlays();
-      
         World.createTracker();
-      
+
     },
 
     createOccluder: function createOccluderFn() {
@@ -74,7 +102,7 @@ var World = {
                 x: -90
             },
             onError: World.onError,
-        
+
         });
     },
 
@@ -99,9 +127,9 @@ var World = {
             rotate: {
                 x: -90
             },
-            onClick: function (scale)  {
+            onClick: function (scale) {
                 World.runMainAnimation();
-              
+
             },
             onError: World.onError
         });
@@ -139,49 +167,56 @@ var World = {
             onObjectLost: World.objectLost,
             onError: World.onError
         });
-    },
-
-    createOverlays: function createOverlaysFn() {
-        var instructionWidget = new AR.HtmlDrawable({
+        this.instructionWidget = new AR.HtmlDrawable({
             uri: "assets/instruction.html"
         }, 0.25, {
             viewportWidth: 500,
             viewportHeight: 700,
+            onClick: World.toggleSnapping,
+            onError: World.onError,
+            scale: {
+                x: 2.5,
+                y: 2.5,
+                z: 2.5
+            },
             translate: {
-                x: -this.firetruckLength * 0.5,
-                y: this.firetruckHeight * 2,
+                x: -this.firetruckLength * 0.9,
+                y: this.firetruckHeight * 2.5,
                 z: 0.2
             },
             rotate: {
-                x: 25
+                x: -0.6
             },
             horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.RIGHT,
             verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP,
-            clickThroughEnabled: true,
-            allowDocumentLocationChanges: false,
-            onDocumentLocationChanged: function onDocumentLocationChangedFn(uri) {
-                AR.context.openInBrowser(uri);
+        });
+        this.objectTrackable2 = new AR.ObjectTrackable(this.tracker, "*", {
+            drawables: {
+                cam: World.instructionWidget
             },
+            snapToScreen: {
+                snapContainer: document.getElementById('snapContainer')
+            },
+            onObjectRecognized: World.objectRecognized,
+            onObjectLost: World.objectLost,
             onError: World.onError
         });
-        World.drawables.push(instructionWidget);
-      
+
     },
+
 
     createBtn: function createBtnFn(options) {
         var btn = new AR.ImageResource("assets/nextbtn.png", {
             onError: World.onError
         });
-        
-        options.onClick = function(){
+
+        options.onClick = function () {
             alert("FINALLEH!");
         }
         var overlayOne = new AR.ImageDrawable(btn, 0.1, options)
 
         World.drawables.push(overlayOne);
     },
-
-  
     objectRecognized: function objectRecognizedFn() {
         World.hideInfoBar();
         World.setAugmentationsEnabled(true);
@@ -196,7 +231,46 @@ var World = {
             World.drawables[i].enabled = enabled;
         }
     },
+    toggleSnapping: function toggleSnappingFn() {
 
+        World.snapped = !World.snapped;
+        World.objectTrackable2.snapToScreen.enabled = World.snapped;
+
+        if (World.snapped) {
+            World.applyLayout(World.layout.snapped);
+
+        }
+        else {
+            World.applyLayout(World.layout.normal);
+        }
+    },
+    applyLayout: function applyLayoutFn(layout) {
+
+
+        World.instructionWidget.scale = {
+            x: layout.carScale,
+            y: layout.carScale,
+            z: layout.carScale
+        };
+
+        World.defaultScale = layout.carScale;
+
+        World.instructionWidget.translate = {
+            x: layout.carTranslateX,
+            y: layout.carTranslateY,
+            z: layout.carTranslateZ
+        };
+        if (layout.name == "normal") {
+            World.instructionWidget.translate = {
+                x: layout.carTranslateX,
+                y: layout.carTranslateY,
+                z: layout.carTranslateZ
+            };
+            World.instructionWidget.rotate = {
+                z: layout.rotateZ
+            };
+        }
+    },
     onError: function onErrorFn(error) {
         alert(error);
     },
