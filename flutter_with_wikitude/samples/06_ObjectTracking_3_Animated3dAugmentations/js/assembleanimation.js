@@ -47,6 +47,7 @@ var World = {
     },
     defaultScale: 0,
     init: function initFn() {
+      
         World.createOccluder();
         World.createCap();
         World.createJerrycan();
@@ -54,7 +55,7 @@ var World = {
             translate: {
                 x: 0,
                 z: 0.5,
-                y: -0.2,
+               
             }
         });
         World.createOpenCapAnimation();
@@ -190,7 +191,7 @@ var World = {
             onObjectLost: World.objectLost,
             onError: World.onError
         });
-        this.instructionWidget = new AR.HtmlDrawable({
+        World.instructionWidget = new AR.HtmlDrawable({
             uri: "assets/instruction.html"
         }, 0.25, {
             viewportWidth: 500,
@@ -212,7 +213,9 @@ var World = {
             },
             horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.RIGHT,
             verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP,
+            // allowDocumentLocationChanges: true
         });
+       
         this.objectTrackable2 = new AR.ObjectTrackable(this.tracker, "*", {
             drawables: {
                 cam: World.instructionWidget
@@ -230,17 +233,17 @@ var World = {
 
     createBtn: function createBtnFn(options) {
         step=0;
-        var btn = new AR.ImageResource("assets/nextbtn.png", {
+        var btn = new AR.ImageResource("assets/nextbtn2.png", {
             onError: World.onError
         });
 
         options.onClick = function () {
             World.steps[step].start();
-            World.instructionWidget.evalJavascript("document.getElementById('test').innerHTML = 'Potatoes Taste Good!'; ");
+            World.instructionWidget.evalJavaScript("var step = document.getElementById('step"+step+"'); step.style.backgroundColor = '#90EE90'; step.style.color= 'white'; console.log(step.style.backgroundColor);");
             step++;
             if(step==World.steps.length){
               
-                alert("Procedure Done!");
+               
             }
         }
         var overlayOne = new AR.ImageDrawable(btn, 0.1, options)
