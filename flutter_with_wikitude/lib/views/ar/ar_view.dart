@@ -32,12 +32,7 @@ class _ARViewState extends State<ARView> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(sample.name)),
-      body: Container(
-          decoration: const BoxDecoration(color: Colors.black),
-          child: architectWidget),
-    );
+    return architectWidget;
   }
 
   @override

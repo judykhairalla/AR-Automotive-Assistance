@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.landscapeRight,
     ]);
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       routerConfig: MyRouter.router,
       title: 'Arabeitak',
       theme: ThemeData(
